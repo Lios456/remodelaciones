@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block main %}
+<main id="main">
+    <div class="container mt-5">
+        <h2>Lista de Control de Costos</h2>
+        <a href="{% url 'control_costo_create' %}" class="btn btn-success mb-3"><i class="bi bi-plus-square"></i></a>
+        <table class="table table-bordered jquery_table">
+            <thead>
+                <tr>
+                    <th>Reforma</th>
+                    <th>Descripción</th>
+                    <th>Evidencia</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for costo in costos %}
+                <tr>
+
+                    <td>{{ costo.reforma }}</td>
+                    <td>{{ costo.descripcion }}</td>
+                    {% if costo.foto %}
+                    <td><img src="{{costo.foto.url}}" alt="{{ costo }}" class="img w-50 h-50"></td>
+                    {% else %}
+                    <td>
+                        <div class="alert alert-danger">No hay foto</div>
+                    </td>
+                    {% endif %}
+                    <td>{{ costo.monto }}</td>
+                    <td>{{ costo.fecha }}</td>
+                    <td>
+                        <a href="{% url 'control_costo_edit' costo.pk %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{% url 'control_costo_delete' costo.pk %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay registros de costos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

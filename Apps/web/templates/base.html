@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Administración de Reformas</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/izitoast/css/iziToast.min.css' %}" rel="stylesheet">
+
+    <!-- DataTables Core CSS -->
+    <link href="{% static 'assets/vendor/datatables/dataTables.dataTables.css' %}" rel="stylesheet">
+
+    <!-- DataTables Buttons CSS -->
+    <link href="{% static 'assets/vendor/datatables/buttons.dataTables.css' %}" rel="stylesheet">
+
+    <!-- Font Awesome (opcional, para íconos) -->
+    <link href="{% static 'assets\vendor\datatables\font-awesome.min.css' %}" rel="stylesheet">
+
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/select2/css/select2.css' %}">
+
+    <!-- Bootstrap file -->
+    <link rel="stylesheet" href="{% static 'assets\vendor\file-input\css\fileinput.css' %}">
+    
+    <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/" class="logo d-flex align-items-center">
+                <img src="{% static 'assets/img/logo.png' %}" alt="">
+                <span class="d-none d-lg-block">Administración de Reformas</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{user}}</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>{{user}}</h6>
+                            <span>
+
+                                {% if user.is_superuser %}
+                                Administrador
+                                {% endif %}
+
+                            </span>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/logout/">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link " href="/">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <!-- Propietarios Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#propietarios" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-person"></i><span>Propietarios</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="propietarios" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'propietario_create' %}">
+                        <i class="bi bi-bookmark-plus"></i><span>Nuevo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'propietarios_list' %}">
+                        <i class="bi bi-list"></i><span>Ver</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Propietarios Nav -->
+
+        <!-- Inmuebles Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#inmuebles" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-house-door"></i><span>Inmuebles</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="inmuebles" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'inmueble_create' %}">
+                        <i class="bi bi-bookmark-plus"></i><span>Nuevo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'inmuebles_list' %}">
+                        <i class="bi bi-list"></i><span>Ver</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Inmuebles Nav -->
+
+        <!-- Reformas Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#reformas" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-tools"></i><span>Reformas</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="reformas" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'reforma_create' %}">
+                        <i class="bi bi-bookmark-plus"></i><span>Nuevo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'reformas_list' %}">
+                        <i class="bi bi-list"></i><span>Ver</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Reformas Nav -->
+
+        <!-- Cotizaciones Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#cotizaciones" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-file-earmark-text"></i><span>Cotizaciones</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="cotizaciones" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'cotizacion_create' %}">
+                        <i class="bi bi-bookmark-plus"></i><span>Nuevo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'cotizaciones_list' %}">
+                        <i class="bi bi-list"></i><span>Ver</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Cotizaciones Nav -->
+
+        <!-- Control de Costos Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#costos" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-credit-card"></i><span>Control de Costos</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="costos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'control_costo_create' %}">
+                        <i class="bi bi-bookmark-plus"></i><span>Nuevo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'control_costos_list' %}">
+                        <i class="bi bi-list"></i><span>Ver</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Control de Costos Nav -->
+
+    </ul>
+
+</aside><!-- End Sidebar -->
+
+
+
+    {% block main %}
+
+    {% endblock %}
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/jquery/jquery-3.7.1.min.js' %}"></script>
+
+
+    <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/chart.js/chart.umd.js' %}"></script>
+    <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/quill/quill.js' %}"></script>
+    <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+    <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/vendor/select2/js/select2.full.min.js' %}"></script>
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- DataTables Core -->
+    <script src="{% static 'assets/vendor/datatables/dataTables.js' %}"></script>
+
+    <!-- DataTables Buttons -->
+    <script src="{% static 'assets/vendor/datatables/dataTables.buttons.js' %}"></script>
+    <script src="{% static 'assets/vendor/datatables/buttons.dataTables.js' %}"></script>
+
+    <!-- JSZip (requerido para exportar a Excel) -->
+    <script src="{% static 'assets/vendor/datatables/jszip.min.js' %}"></script>
+
+    <!-- PDFMake (requerido para exportar a PDF) -->
+    <script src="{% static 'assets/vendor/datatables/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/datatables/vfs_fonts.js' %}"></script>
+
+    <!-- DataTables Export Buttons -->
+    <script src="{% static 'assets/vendor/datatables/buttons.html5.min.js' %}"></script>
+
+    <script src="{% static 'assets/vendor/izitoast/js/iziToast.js' %}"></script>
+
+    <!-- File Input -->
+    <script src="{% static 'assets\vendor\file-input\js\fileinput.js' %}"></script>
+    <script src="{% static 'assets\vendor\file-input\js\locales\es.js' %}"></script>
+
+    <!-- JQERY VALIDATOR -->
+    <script src="{% static 'assets\vendor\jquery-validator\jquery.validate.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+        new DataTable('.jquery_table', {
+            layout: {
+                topStart: {
+                    buttons: ['copy', 'excel', 'csv', 'pdf' ]
+                }
+            }
+        });
+
+        $(".file-input").fileinput({
+                language: 'es', 
+                allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'], 
+                maxFileSize: 1024, 
+                showPreview: true,
+                fileActionSettings: {
+                    showUpload: false,
+                    showRemove: false
+                }
+            });
+
+    </script>
+
+    {% block scripts %}
+        
+    {% endblock  %}
+
+{%if messages%}
+    
+    {% for m in messages %}
+        
+        {% if m.tags == 'success' %}
+            <script>
+                iziToast.success(
+                    {
+                        title: 'Éxito',
+                        message: '{{m}}',
+                        position: 'topRight'
+                    }
+                )
+            </script>
+        {% endif %}
+
+        {% if m.tags == 'error' %}
+        <script>
+            iziToast.error(
+                {
+                    title: 'Error',
+                    message: '{{m}}',
+                    position: 'topRight'
+                }
+            )
+        </script>
+        {% endif %}
+            
+    {% endfor %}
+        
+{% endif %}
+
+</body>
+
+</html>

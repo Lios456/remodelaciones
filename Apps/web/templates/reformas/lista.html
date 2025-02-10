@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block main %}
+<main id="main">
+    <div class="container mt-5">
+        <h2>Lista de Reformas</h2>
+        <a href="{% url 'reforma_create' %}" class="btn btn-success mb-3"><i class="bi bi-plus-square"></i></a>
+        <table class="table table-bordered jquery_table">
+            <thead>
+                <tr>
+                    <th>Inmueble</th>
+                    <th>Descripción</th>
+                    <th>Costo Estimado</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reforma in reformas %}
+                    <tr>
+                        <td>{{ reforma.inmueble }}</td>
+                        <td>{{ reforma.descripcion }}</td>
+                        <td>{{ reforma.costo_estimado }}</td>
+                        <td>{{ reforma.estado }}</td>
+                        <td>
+                            <a href="{% url 'reforma_edit' reforma.pk %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{% url 'reforma_delete' reforma.pk %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay reformas registradas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
+

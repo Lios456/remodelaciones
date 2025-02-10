@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block main %}
+<main id="main">
+    <h1>Eliminar</h1>
+    <p>¿Estás seguro de que deseas eliminar este elemento?</p>
+    <form method="post">
+        <div class="alert alert-warning">
+            {{objeto}}
+        </div>
+        {% csrf_token %}
+        <div class="container">
+            <button type="submit" class="btn btn-success"><i class="bi bi-check2"></i></button>
+            <a href="{% url url %}" class="btn btn-danger"><i class="bi bi-x-circle"></i></a>
+        </div>
+    </form>
+</main>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block main %}
+<main id="main">
+    <div class="container mt-5">
+        <h2>Lista de Inmuebles</h2>
+        <a href="{% url 'inmueble_create' %}" class="btn btn-success mb-3"><i class="bi bi-plus-square"></i></a>
+        <table class="table table-bordered jquery_table">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Dirección</th>
+                    <th>Tipo</th>
+                    <th>Propietario</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inmueble in inmuebles %}
+                <tr>
+                    {% if inmueble.foto %}
+                    <td><img src="{{inmueble.foto.url}}" alt="{{ inmueble }}" class="img w-50 h-50"></td>
+                    {% else %}
+                    <td>
+                        <div class="alert alert-danger">No hay foto</div>
+                    </td>
+                    {% endif %}
+                    <td>{{ inmueble.direccion }}</td>
+                    <td>{{ inmueble.tipo }}</td>
+                    <td>{{ inmueble.propietario }}</td>
+                    <td>{{ inmueble.descripcion }}</td>
+                    <td>
+                        <a href="{% url 'inmueble_edit' inmueble.pk %}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{% url 'inmueble_delete' inmueble.pk %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay inmuebles registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

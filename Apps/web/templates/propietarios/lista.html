@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block main %}
+<main id="main">
+    <div class="container mt-5">
+        <h2>Lista de Propietarios</h2>
+        <a href="{% url 'propietario_create' %}" class="btn btn-success mb-3"><i class="bi bi-plus-square"></i></a>
+        <table class="table table-bordered jquery_table text-center">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Documento de Identidad</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for propietario in propietarios %}
+                <tr>
+                    {% if propietario.foto %}
+                        <td><img src="{{propietario.foto.url}}" alt="{{ propietario.nombre }}" class="img w-50 h-50"></td>
+                    {% else %}
+                    <td><div class="alert alert-danger">No hay foto</div></td>
+                    {% endif %}
+                    <td>{{ propietario.dni }}</td>
+                    <td>{{ propietario.nombre }}</td>
+                    <td>{{ propietario.correo }}</td>
+                    <td>{{ propietario.telefono }}</td>
+                    <td>
+                        <a href="{% url 'propietario_edit' propietario.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{% url 'propietario_delete' propietario.pk %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock  %}
