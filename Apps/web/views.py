@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import Propietario, Inmueble, Reforma, Cotizacion, ControlCosto
 from .forms import PropietarioForm, InmuebleForm, ReformaForm, CotizacionForm, ControlCostoForm
 from django.contrib import messages
-
+from django.core.mail import send_mail
+from django.conf import settings
 #Index
 
 def index(request):
@@ -131,7 +132,46 @@ def cotizacion_create(request):
     if request.method == 'POST':
         form = CotizacionForm(request.POST)
         if form.is_valid():
-            form.save()
+            cotizacion = form.save()
+            reforma = cotizacion.reforma
+            inmueble = reforma.inmueble
+            propietario = inmueble.propietario
+            
+            """
+            Mandar el correo al guardar la cotización
+            """
+            subject = 'Propuesta de cotización'
+            message = f"""
+                Fecha de emisión: {cotizacion.fecha_emision}
+                ___________________________________________________________________________________
+                
+                Hola {propietario.nombre}. Tenemos una cotización de {cotizacion.proveedor} para ti.+
+                
+                
+                Detalles de la cotización:
+                Costo estimado: {cotizacion.costo_estimado}
+                Descripción: {cotizacion.descripcion}
+                Fecha de vencimiento: {cotizacion.fecha_vencimiento}
+                ___________________________________________________________________________________
+                
+                Detalles de tu reforma:
+                Descripción: {reforma.descripcion}
+                Fecha de inicio: {reforma.fecha_inicio}
+                Estado: {reforma.estado}
+                ___________________________________________________________________________________
+
+                Detalles de tu inmueble
+                Dirección: {inmueble.direccion} 
+                Tipo: {inmueble.tipo}
+                Descripción: {inmueble.descripcion}
+                    
+                ___________________________________________________________________________________
+                
+            """
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [propietario.correo]
+
+            send_mail(subject, message, from_email, recipient_list)
             messages.success(request, 'Registro correcto')
             return redirect('cotizaciones_list')  # Redirige al listado de cotizaciones
     else:

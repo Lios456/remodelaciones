@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lvee4=dygs&6@7oe#wfldv$@b-xj#_xha9rdo__j*ny8nh+6d8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lios456.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -117,9 +117,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / STATIC_URL
+
+"""
+
 STATICFILES_DIRS = [
     BASE_DIR / STATIC_URL
 ]
+
+"""
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -128,3 +134,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+"""
+SMTP
+"""
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'luisjerez396@gmail.com'
+EMAIL_HOST_PASSWORD = 'hkgx gxzk xqir qyib'
